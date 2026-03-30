@@ -1,116 +1,175 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { useTheme } from "@/contexts/ThemeContext";
 
-/**
- * Landing Page - Mini Interaction Game
- * Design: Clean blue minimalist aesthetic
- * Feature: Playful "NO" button that moves away on hover
- * Action: "YES" button navigates to main AJ & Jana's World page
- */
-
 export default function Landing() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const [, setLocation] = useLocation();
-  const [noButtonPos, setNoButtonPos] = useState({ x: 0, y: 0 });
-  const [showResponse, setShowResponse] = useState(false);
+  const noButtonRef = useRef<HTMLButtonElement | null>(null);
+  const navigateTimeoutRef = useRef<number | null>(null);
+  const [noButtonPos, setNoButtonPos] = useState({ x: 170, y: 0 });
+  const [isLoadingLove, setIsLoadingLove] = useState(false);
 
-  const handleYes = () => {
-    setShowResponse(true);
-    setTimeout(() => {
-      setLocation("/world");
-    }, 1500);
-  };
+  const moveNoButton = (nextX: number, nextY: number) => {
+    const buttonRect = noButtonRef.current?.getBoundingClientRect();
+    const buttonWidth = buttonRect?.width ?? 128;
+    const buttonHeight = buttonRect?.height ?? 52;
+    const margin = 24;
+    const maxX = Math.max(margin, window.innerWidth - buttonWidth - margin);
+    const maxY = Math.max(margin, window.innerHeight - buttonHeight - margin);
 
-  const handleNoHover = () => {
-    const maxX = window.innerWidth - 120;
-    const maxY = window.innerHeight - 50;
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
-    
     setNoButtonPos({
-      x: randomX,
-      y: randomY,
+      x: Math.min(Math.max(nextX, margin), maxX),
+      y: Math.min(Math.max(nextY, margin), maxY),
     });
   };
 
+  const handleYes = () => {
+    if (isLoadingLove) return;
+
+    setIsLoadingLove(true);
+    navigateTimeoutRef.current = window.setTimeout(() => {
+      setLocation("/world");
+    }, 2200);
+  };
+
+  const handleNoHover = () => {
+    const currentButton = noButtonRef.current;
+    if (!currentButton) return;
+
+    const rect = currentButton.getBoundingClientRect();
+    const jitter = 40 + Math.random() * 40;
+    const horizontalDirection = rect.left < window.innerWidth / 2 ? 1 : -1;
+    const verticalDirection = rect.top < window.innerHeight / 2 ? 1 : -1;
+
+    moveNoButton(
+      rect.left + horizontalDirection * jitter,
+      rect.top + verticalDirection * (jitter * 0.7),
+    );
+  };
+
+  useEffect(() => {
+    const handlePointerMove = (event: MouseEvent) => {
+      const currentButton = noButtonRef.current;
+      if (!currentButton) return;
+
+      const rect = currentButton.getBoundingClientRect();
+      const buttonCenterX = rect.left + rect.width / 2;
+      const buttonCenterY = rect.top + rect.height / 2;
+      const dx = buttonCenterX - event.clientX;
+      const dy = buttonCenterY - event.clientY;
+      const distance = Math.hypot(dx, dy);
+      const dodgeRadius = 130;
+
+      if (distance === 0 || distance > dodgeRadius) return;
+
+      const escapeBoost = ((dodgeRadius - distance) / dodgeRadius) * 110 + 30;
+      const jitterX = (Math.random() - 0.5) * 28;
+      const jitterY = (Math.random() - 0.5) * 20;
+
+      moveNoButton(
+        rect.left + (dx / distance) * escapeBoost + jitterX,
+        rect.top + (dy / distance) * escapeBoost + jitterY,
+      );
+    };
+
+    const handleResize = () => {
+      moveNoButton(noButtonPos.x, noButtonPos.y);
+    };
+
+    window.addEventListener("mousemove", handlePointerMove);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("mousemove", handlePointerMove);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [noButtonPos.x, noButtonPos.y]);
+
+  useEffect(() => {
+    return () => {
+      if (navigateTimeoutRef.current !== null) {
+        window.clearTimeout(navigateTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <div className={`min-h-screen flex items-center justify-center ${theme === "dark" ? "bg-slate-900" : "bg-slate-50"} transition-colors duration-300 relative overflow-hidden`}>
-      {/* Theme Toggle */}
-      <button
-        onClick={toggleTheme}
-        className="fixed top-4 right-4 p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded transition-colors z-10"
-        title="Toggle theme"
-      >
-        {theme === "dark" ? "☀️" : "🌙"}
-      </button>
-
-      {/* Main Container */}
-      <div className="w-full max-w-md px-4">
-        {/* Content */}
+    <div
+      className={`min-h-screen flex items-center justify-center ${
+        theme === "dark" ? "bg-slate-900" : "bg-slate-50"
+      } transition-colors duration-300 relative overflow-hidden`}
+    >
+      <div className="w-full max-w-lg px-4">
         <div className="text-center">
-          {/* Title */}
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4" style={{ fontFamily: 'Quicksand' }}>
-            Do you love me?
-          </h1>
+          <div className="mb-10 rounded-[2rem] border border-sky-100/80 bg-white/85 px-6 py-8 shadow-[0_20px_60px_rgba(125,184,255,0.12)] backdrop-blur-sm dark:border-slate-700 dark:bg-slate-800/85 md:px-8 md:py-8">
+            <div
+              className="mx-auto mt-1 mb-5 text-slate-600 dark:text-slate-400 text-[11px] leading-5 sm:text-sm sm:leading-6 md:text-sm"
+              style={{ fontFamily: "Poppins" }}
+            >
+              <p className="text-center whitespace-nowrap">Before you proceed to aley &amp; dhemy&apos;s world.</p>
+              <p className="mt-0 text-center whitespace-nowrap">I have a question for you</p>
+            </div>
 
-          {/* Decorative Hearts */}
-          <div className="flex justify-center gap-3 mb-8 text-3xl">
-            <span className="animate-bounce" style={{ animationDelay: '0s' }}>💙</span>
-            <span className="animate-bounce" style={{ animationDelay: '0.2s' }}>💙</span>
-            <span className="animate-bounce" style={{ animationDelay: '0.4s' }}>💙</span>
+            <h1
+              className="text-3xl md:text-4xl font-bold leading-[1.15] text-slate-900 dark:text-white"
+              style={{ fontFamily: "Quicksand" }}
+            >
+              Do you still love Aley even tho she always ragebait you??
+            </h1>
+
           </div>
 
-          {/* Subtitle */}
-          <p className="text-slate-600 dark:text-slate-400 mb-12 text-lg" style={{ fontFamily: 'Poppins' }}>
-            Welcome to our special world
-          </p>
-
-          {/* Response Message */}
-          {showResponse && (
-            <div className="mb-8 p-4 bg-blue-100 dark:bg-blue-900 rounded-lg border border-blue-300 dark:border-blue-700">
-              <p className="text-blue-700 dark:text-blue-300 font-bold animate-bounce" style={{ fontFamily: 'Quicksand' }}>
-                YES! I love you so much! 💙
+          {isLoadingLove && (
+            <div className="mb-8 rounded-2xl border border-sky-200 bg-sky-50/90 px-5 py-5 shadow-[0_12px_30px_rgba(125,184,255,0.18)] dark:border-sky-800 dark:bg-sky-950/60">
+              <div className="flex items-center justify-center gap-3">
+                <div className="flex gap-1">
+                  <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-400 [animation-delay:-0.3s]"></span>
+                  <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-400 [animation-delay:-0.15s]"></span>
+                  <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-400"></span>
+                </div>
+                <p
+                  className="text-sky-700 dark:text-sky-300 font-bold text-base md:text-lg"
+                  style={{ fontFamily: "Quicksand" }}
+                >
+                  Aley loves you too ^_^
+                </p>
+              </div>
+              <p
+                className="mt-3 text-center text-xs text-sky-500 dark:text-sky-300/80"
+                style={{ fontFamily: "Poppins" }}
+              >
+                Loading your world...
               </p>
             </div>
           )}
 
-          {/* Buttons Container */}
-          <div className="flex flex-col md:flex-row gap-4 justify-center items-center relative h-16">
-            {/* YES Button */}
+          <div className="flex flex-col md:flex-row gap-4 justify-center items-center relative h-14">
             <button
               onClick={handleYes}
-              className="px-8 py-3 bg-blue-600 dark:bg-blue-500 text-white font-bold rounded-lg shadow-md hover:shadow-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-all duration-300 text-lg w-32"
-              style={{ fontFamily: 'Quicksand' }}
+              disabled={isLoadingLove}
+              className="px-8 py-3 bg-sky-400 dark:bg-sky-400 text-white font-bold rounded-lg shadow-md hover:shadow-lg hover:bg-sky-500 dark:hover:bg-sky-500 transition-all duration-300 text-base tracking-[0.14em] w-32 disabled:cursor-not-allowed disabled:opacity-80"
+              style={{ fontFamily: "Quicksand" }}
             >
-              YES
+              {isLoadingLove ? "LOADING" : "YES"}
             </button>
 
-            {/* NO Button - Moves Away */}
             <button
+              ref={noButtonRef}
               onMouseEnter={handleNoHover}
               onTouchStart={() => handleNoHover()}
-              className="px-8 py-3 bg-slate-300 dark:bg-slate-600 text-slate-900 dark:text-white font-bold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-lg w-32 absolute md:relative"
+              className="px-8 py-3 bg-slate-300 dark:bg-slate-600 text-slate-900 dark:text-white font-bold rounded-lg shadow-md hover:shadow-lg transition-transform duration-200 text-base tracking-[0.14em] w-32 fixed z-20"
               style={{
-                fontFamily: 'Quicksand',
-                transform: `translate(${noButtonPos.x}px, ${noButtonPos.y}px)`,
-                transition: 'transform 0.3s ease-out',
+                fontFamily: "Quicksand",
+                left: `${noButtonPos.x}px`,
+                top: `${noButtonPos.y}px`,
               }}
             >
               NO
             </button>
           </div>
-
-          {/* Footer Message */}
-          <p className="text-slate-500 dark:text-slate-400 text-sm mt-12" style={{ fontFamily: 'Poppins' }}>
-            (The NO button is shy 😊)
-          </p>
         </div>
       </div>
-
-      {/* Decorative Background Elements */}
-      <div className="absolute top-10 left-10 text-6xl opacity-10 pointer-events-none">💙</div>
-      <div className="absolute bottom-10 right-10 text-6xl opacity-10 pointer-events-none">💙</div>
     </div>
   );
 }

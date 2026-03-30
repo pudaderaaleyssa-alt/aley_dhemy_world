@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -43,15 +44,15 @@
 }
 
 :root {
-  --primary: #3b82f6;
+  --primary: #7db8ff;
   --primary-foreground: #ffffff;
-  --sidebar-primary: #3b82f6;
+  --sidebar-primary: #7db8ff;
   --sidebar-primary-foreground: #ffffff;
-  --chart-1: #60a5fa;
-  --chart-2: #3b82f6;
-  --chart-3: #1e40af;
-  --chart-4: #1e3a8a;
-  --chart-5: #172554;
+  --chart-1: #bfdbfe;
+  --chart-2: #93c5fd;
+  --chart-3: #7db8ff;
+  --chart-4: #60a5fa;
+  --chart-5: #3b82f6;
   --radius: 0.75rem;
   --background: #f8fafc;
   --foreground: #1e293b;
@@ -59,29 +60,29 @@
   --card-foreground: #1e293b;
   --popover: #ffffff;
   --popover-foreground: #1e293b;
-  --secondary: #0ea5e9;
+  --secondary: #8ec5ff;
   --secondary-foreground: #ffffff;
   --muted: #e2e8f0;
   --muted-foreground: #64748b;
-  --accent: #3b82f6;
+  --accent: #7db8ff;
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
   --border: #e2e8f0;
   --input: #f1f5f9;
-  --ring: #3b82f6;
+  --ring: #7db8ff;
   --sidebar: #ffffff;
   --sidebar-foreground: #1e293b;
-  --sidebar-accent: #3b82f6;
+  --sidebar-accent: #7db8ff;
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: #e2e8f0;
-  --sidebar-ring: #3b82f6;
+  --sidebar-ring: #7db8ff;
 }
 
 .dark {
-  --primary: #60a5fa;
+  --primary: #93c5fd;
   --primary-foreground: #0f172a;
-  --sidebar-primary: #60a5fa;
+  --sidebar-primary: #93c5fd;
   --sidebar-primary-foreground: #0f172a;
   --background: #0f172a;
   --foreground: #f1f5f9;
@@ -89,28 +90,28 @@
   --card-foreground: #f1f5f9;
   --popover: #1e293b;
   --popover-foreground: #f1f5f9;
-  --secondary: #0ea5e9;
+  --secondary: #7db8ff;
   --secondary-foreground: #0f172a;
   --muted: #334155;
   --muted-foreground: #cbd5e1;
-  --accent: #60a5fa;
+  --accent: #93c5fd;
   --accent-foreground: #0f172a;
   --destructive: #f87171;
   --destructive-foreground: #0f172a;
   --border: #334155;
   --input: #1e293b;
-  --ring: #60a5fa;
-  --chart-1: #60a5fa;
-  --chart-2: #3b82f6;
-  --chart-3: #1e40af;
-  --chart-4: #1e3a8a;
-  --chart-5: #172554;
+  --ring: #93c5fd;
+  --chart-1: #bfdbfe;
+  --chart-2: #93c5fd;
+  --chart-3: #7db8ff;
+  --chart-4: #60a5fa;
+  --chart-5: #3b82f6;
   --sidebar: #1e293b;
   --sidebar-foreground: #f1f5f9;
-  --sidebar-accent: #60a5fa;
+  --sidebar-accent: #93c5fd;
   --sidebar-accent-foreground: #0f172a;
   --sidebar-border: #334155;
-  --sidebar-ring: #60a5fa;
+  --sidebar-ring: #93c5fd;
 }
 
 @layer base {
@@ -119,10 +120,10 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Manrope", sans-serif;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Quicksand', sans-serif;
+    font-family: "Cormorant Garamond", serif;
     @apply font-bold;
   }
   button:not(:disabled),
@@ -139,18 +140,6 @@
 }
 
 @layer components {
-  @font-face {
-    font-family: 'Quicksand';
-    font-weight: 400 700;
-    src: local('Quicksand'), url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700') format('woff2');
-  }
-  
-  @font-face {
-    font-family: 'Poppins';
-    font-weight: 400 700;
-    src: local('Poppins'), url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700') format('woff2');
-  }
-
   /**
    * Custom container utility that centers content and adds responsive padding.
    *
