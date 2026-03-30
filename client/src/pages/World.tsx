@@ -11,7 +11,7 @@ import { useTheme } from "@/contexts/ThemeContext";
  * - Typography: Quicksand (headings) + Poppins (body)
  */
 
-export default function Home() {
+export default function World() {
   const { theme, toggleTheme } = useTheme();
   const [showGift, setShowGift] = useState(false);
   const [showLoveLetter, setShowLoveLetter] = useState(false);
