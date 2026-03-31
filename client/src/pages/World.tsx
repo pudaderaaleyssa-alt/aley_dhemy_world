@@ -15,6 +15,11 @@
   } from "lucide-react";
   import { useTheme } from "@/contexts/ThemeContext";
   import bouquetImg from "@/assets/bouquet.png";
+  import photo1 from '@/assets/picture1.jpeg';
+  import photo2 from '@/assets/picture2.jpeg';
+  import photo3 from '@/assets/picture3.jpeg';
+  
+
 
   export default function World() {
     const { theme } = useTheme();
@@ -33,9 +38,9 @@
     };
 
     const images = [
-      "https://d2xsxph8kpxj0f.cloudfront.net/310519663490224127/5ZFdTcBZSFPRJ3SDvK689o/hero-couple-JkL8n8CGuuK7Pp6rerbf7z.webp",
-      "https://d2xsxph8kpxj0f.cloudfront.net/310519663490224127/5ZFdTcBZSFPRJ3SDvK689o/secondary-memory-npDjPTMRQmGjGa6cfnRfsa.webp",
-    ];
+  photo3, // This refers to the import at the top
+  photo2, // This refers to the import at the top
+];
 
     useEffect(() => {
       const interval = setInterval(() => {
@@ -127,7 +132,8 @@
 
           <section className="mb-16">
             <div className="relative overflow-hidden rounded-lg shadow-sm h-64 md:h-72" style={{ backgroundColor: theme === "dark" ? "#334155" : palette.D5E3F0 }}>
-              <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663490224127/5ZFdTcBZSFPRJ3SDvK689o/romantic-bg-KVSRVfXAifJiMKg72xfmtW.webp" alt="Romantic background" className="w-full h-full object-cover" />
+              <img 
+                src={photo1} alt="Romantic background"className="w-full h-full object-cover"/>
             </div>
           </section>
 
@@ -252,7 +258,7 @@
     className="font-bold text-xl mb-6" 
     style={{ fontFamily: "Quicksand", color: palette.A6B5E3 }}
   >
-    Songs
+    Song List
   </h3>
 
   <div className="flex flex-col gap-1">
@@ -342,7 +348,7 @@
   {[
     { label: "Open Letter", icon: <Mail className="inline-block w-4 h-4 mr-1" />, onClick: () => setShowLoveLetter(true) },
     { label: "Gift", icon: <Gift className="inline-block w-4 h-4 mr-1" />, onClick: () => setShowGift(true) },
-    { label: "Spotify", icon: <Headphones className="inline-block w-4 h-4 mr-1" />, onClick: () => {} },
+    { label: "Spotify", icon: <Headphones className="inline-block w-4 h-4 mr-1" />, onClick: () => window.open("https://open.spotify.com/playlist/7lQG9mTLVNlZCl35KFjtDH?si=h1AVEv7ZQvyT8f7VjHhtFw&pi=OCDGYlfkR-KOY", "_blank") },
   ].map((btn, idx) => (
     <button
       key={idx}
@@ -412,7 +418,7 @@
         <footer className="border-t py-6 mt-12" style={{ borderColor: theme === "dark" ? "#334155" : palette.C1D5F0 }}>
           <div className="container mx-auto px-4 text-center">
             <p className="text-xs" style={{ fontFamily: "Poppins", color: subtextColor }}>
-              (made with love) <Heart className="inline-block w-4 h-4 align-text-bottom" style={{ color: palette.A6B5E3 }} />
+              (Aley & Dhemy) <Heart className="inline-block w-4 h-4 align-text-bottom" style={{ color: palette.A6B5E3 }} />
             </p>
           </div>
         </footer>
