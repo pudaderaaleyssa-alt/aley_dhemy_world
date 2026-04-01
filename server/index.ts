@@ -11,12 +11,17 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
-  // Vercel puts the server and the 'public' folder inside 'dist'
-  // This looks for 'public' in the same folder as this running script
-  const staticPath = path.resolve(__dirname, "public");
+  // We check for 'public' first, then 'client' as a backup
+  let staticPath = path.resolve(__dirname, "public");
+  
+  if (!fs.existsSync(path.join(staticPath, "index.html"))) {
+    staticPath = path.resolve(__dirname, "client");
+  }
 
-  // Log the path to Vercel's internal logs so we can debug if it fails
-  console.log("Serving static files from:", staticPath);
+  // Final fallback for local development structure
+  if (!fs.existsSync(path.join(staticPath, "index.html"))) {
+    staticPath = path.resolve(__dirname, "..", "dist", "public");
+  }
 
   app.use(express.static(staticPath));
 
@@ -26,13 +31,13 @@ async function startServer() {
     if (fs.existsSync(indexPath)) {
       res.sendFile(indexPath);
     } else {
-      res.status(404).send("Frontend assets missing. Ensure 'vite build' ran correctly.");
+      res.status(404).send(`Server is running, but index.html was not found at: ${indexPath}`);
     }
   });
 
   const port = process.env.PORT || 3000;
   server.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+    console.log(`Server successfully running on port ${port}`);
   });
 }
 
