@@ -13,11 +13,11 @@
     Headphones,
     Mail,
   } from "lucide-react";
-  import { useTheme } from "@/contexts/ThemeContext";
-  import bouquetImg from "@/assets/bouquet.png";
-  import photo1 from '@/assets/picture1.jpeg';
-  import photo2 from '@/assets/picture2.jpeg';
-  import photo3 from '@/assets/picture3.jpeg';
+  import { useTheme } from "../contexts/ThemeContext";
+  import bouquetImg from "../assets/bouquet.png";
+  import photo1 from '../assets/picture1.jpeg';
+  import photo2 from '../assets/picture2.jpeg';
+  import photo3 from '../assets/picture3.jpeg';
   
 
 

@@ -1,41 +1,33 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Landing from "./pages/Landing";
 import World from "./pages/World";
 
-
+// 1. Fixed the paths to use forward slashes
 function Router() {
   return (
     <Switch>
-      <Route path={"\\"} component={Landing} />
-      <Route path={"/world"} component={World} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
+      <Route path="/" component={Landing} />
+      <Route path="/world" component={World} />
+      
+      {/* Basic Fallback so you don't get a 404 inside the app */}
+      <Route>
+        <div className="flex items-center justify-center min-h-screen">
+          <p>404 - Page Not Found</p>
+        </div>
+      </Route>
     </Switch>
   );
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
+      {/* 2. Passed switchable=true so your toggle logic works */}
+      {/* 3. Removed children={undefined} as it's handled by the closing tag */}
+      <ThemeProvider defaultTheme="light" switchable={true}>
+        <Router /> 
       </ThemeProvider>
     </ErrorBoundary>
   );

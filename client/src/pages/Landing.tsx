@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useTheme } from "../contexts/ThemeContext";
 
 export default function Landing() {
   const { theme } = useTheme();
@@ -167,7 +167,7 @@ export default function Landing() {
             >
               NO
             </button>
-          </div>
+          </div>  
         </div>
       </div>
     </div>
