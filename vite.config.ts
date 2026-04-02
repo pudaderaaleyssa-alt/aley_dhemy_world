@@ -154,6 +154,15 @@ const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(
 
 export default defineConfig({
   plugins,
+
+  define: {
+    'React': 'window.react', // This creates the missing "react" reference
+    'react': 'window.react', 
+  },
+
+  esbuild: {
+    jsx: 'automatic',
+  },
   resolve: {
     alias: {
       "@": path.resolve(PROJECT_ROOT, "client", "src"),
@@ -187,8 +196,5 @@ export default defineConfig({
     },
   },
 
-  define: {
-    'React': 'react',
-  },
 
 });
