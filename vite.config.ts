@@ -156,18 +156,18 @@ export default defineConfig({
   plugins,
   resolve: {
     alias: {
-      // Use this if your vite.config.ts is in the ROOT folder
       "@": path.resolve(PROJECT_ROOT, "client", "src"),
       "@shared": path.resolve(PROJECT_ROOT, "shared"),
       "@assets": path.resolve(PROJECT_ROOT, "attached_assets"),
     },
   },
-  envDir: path.resolve(import.meta.dirname),
-  root: path.resolve(import.meta.dirname, PROJECT_ROOT, "client"),
+  envDir: PROJECT_ROOT,
+  root: path.resolve(PROJECT_ROOT, "client"),
   build: {
-  outDir: "dist",
-  emptyOutDir: true,
+    outDir: "dist",
+    emptyOutDir: true,
   },
+
   server: {
     port: 3000,
     strictPort: false, // Will find next available port if 3000 is busy
