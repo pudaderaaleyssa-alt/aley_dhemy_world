@@ -156,8 +156,7 @@ export default defineConfig({
   plugins,
 
   define: {
-    'React': 'react', // This creates the missing "react" reference
-    'react': 'react', 
+    "React": "react", // This creates the missing "react" reference
   },
 
   esbuild: {
