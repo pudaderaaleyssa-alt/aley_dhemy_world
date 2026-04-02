@@ -172,7 +172,7 @@ export default defineConfig({
   envDir: PROJECT_ROOT,
   root: path.resolve(PROJECT_ROOT, "client"),
   build: {
-    outDir: "dist",
+    outDir: "dist/public",
     emptyOutDir: true,
   },
 
