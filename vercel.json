@@ -13,19 +13,15 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/git adist/index.js"
+      "dest": "/dist/index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "dist/public/$1",
-      "continue": true
+      "dest": "/dist/public/$1"
     },
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "dist/public/index.html"
+      "src": "/",
+      "dest": "/dist/public/index.html"
     }
   ]
 }
