@@ -156,8 +156,8 @@ export default defineConfig({
   plugins,
 
   define: {
-    'React': 'window.react', // This creates the missing "react" reference
-    'react': 'window.react', 
+    'React': 'react', // This creates the missing "react" reference
+    'react': 'react', 
   },
 
   esbuild: {
@@ -173,7 +173,7 @@ export default defineConfig({
   envDir: PROJECT_ROOT,
   root: path.resolve(PROJECT_ROOT, "client"),
   build: {
-    outDir: "../dist",
+    outDir: "dist",
     emptyOutDir: true,
   },
 
