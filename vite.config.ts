@@ -186,4 +186,9 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
+
+  define: {
+    'React': 'react',
+  },
+
 });
